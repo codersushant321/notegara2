@@ -1,0 +1,354 @@
+:root {
+    --bg: #f4f5f7;
+    --panel: #ffffff;
+    --ink: #1f2430;
+    --mute: #667085;
+    --line: #d6d9e0;
+    --acc: #1971c2;
+    --accbg: #dbeafe;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    color-scheme: light
+}
+
+@media(prefers-color-scheme:dark) {
+    :root:not([data-theme="light"]) {
+        --bg: #121418;
+        --panel: #1c1f26;
+        --ink: #e7e9ee;
+        --mute: #9aa1ad;
+        --line: #2f343d;
+        --acc: #74b0f5;
+        --accbg: #22364f;
+        color-scheme: dark
+    }
+}
+
+:root[data-theme="dark"] {
+    --bg: #121418;
+    --panel: #1c1f26;
+    --ink: #e7e9ee;
+    --mute: #9aa1ad;
+    --line: #2f343d;
+    --acc: #74b0f5;
+    --accbg: #22364f;
+    color-scheme: dark
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0
+}
+
+body {
+    height: 100dvh;
+    overscroll-behavior: none;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    color: var(--ink);
+    font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+    overflow: hidden
+}
+
+button,
+select,
+input {
+    font: inherit;
+    color: inherit
+}
+
+button {
+    cursor: pointer;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 5px 10px;
+    min-height: 34px;
+    white-space: nowrap
+}
+
+button:hover {
+    background: var(--accbg)
+}
+
+button.on {
+    background: var(--accbg);
+    border-color: var(--acc);
+    font-weight: 600
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--acc);
+    outline-offset: 1px
+}
+
+.bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    padding: 8px 10px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line)
+}
+
+.grp {
+    display: flex;
+    gap: 4px;
+    align-items: center
+}
+
+.sep {
+    width: 1px;
+    height: 24px;
+    background: var(--line);
+    margin: 0 2px
+}
+
+.sw {
+    width: 26px;
+    height: 26px;
+    min-height: 26px;
+    padding: 0;
+    border-radius: 50%;
+    border: 2px solid var(--line)
+}
+
+.sw.on {
+    border-color: var(--acc);
+    box-shadow: 0 0 0 2px var(--accbg)
+}
+
+input[type=color] {
+    width: 34px;
+    height: 34px;
+    padding: 2px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--panel)
+}
+
+input[type=range] {
+    width: 90px
+}
+
+select {
+    min-height: 34px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--panel);
+    padding: 4px 6px
+}
+
+#board {
+    flex: 1;
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    --g: rgba(0, 0, 0, .09)
+}
+
+#board[data-bg="white"] {
+    background-color: #fff
+}
+
+#board[data-bg="green"] {
+    background-color: #1f4d3a;
+    --g: rgba(255, 255, 255, .12)
+}
+
+#board[data-bg="black"] {
+    background-color: #15171a;
+    --g: rgba(255, 255, 255, .12)
+}
+
+#board.grid {
+    background-image: linear-gradient(var(--g) 1px, transparent 1px), linear-gradient(90deg, var(--g) 1px, transparent 1px)
+}
+
+canvas {
+    position: absolute;
+    inset: 0;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none
+}
+
+.morebtn {
+    display: none
+}
+
+#ov {
+    cursor: crosshair
+}
+
+.foot {
+    padding: 5px 12px;
+    color: var(--mute);
+    font-size: 12.5px;
+    background: var(--panel);
+    border-top: 1px solid var(--line)
+}
+
+#toast {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #20242c;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+    z-index: 6;
+    max-width: 90%
+}
+
+#toast.show {
+    opacity: 1
+}
+
+#calc {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: 244px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, .28);
+    padding: 8px;
+    z-index: 5;
+    user-select: none;
+    -webkit-user-select: none
+}
+
+.ch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    cursor: move;
+    padding: 2px 2px 6px;
+    touch-action: none
+}
+
+#ci {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--bg);
+    font: 16px ui-monospace, Menlo, Consolas, monospace
+}
+
+#cr {
+    text-align: right;
+    min-height: 30px;
+    font: 600 20px ui-monospace, Menlo, Consolas, monospace;
+    padding: 4px 2px;
+    overflow: hidden
+}
+
+.ck {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px
+}
+
+.ck button {
+    padding: 6px 0;
+    min-height: 34px
+}
+
+@media(max-width:1100px) {
+    .morebtn {
+        display: inline-block
+    }
+
+    .bar .sec,
+    .bar .sep {
+        display: none
+    }
+
+    .bar.open .sec {
+        display: flex;
+        flex-wrap: wrap
+    }
+
+    .bar {
+        max-height: 62vh;
+        overflow-y: auto;
+        gap: 6px 8px
+    }
+
+    .foot {
+        display: none
+    }
+
+    #tools {
+        flex: 1 1 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch
+    }
+
+    #tools button {
+        padding: 4px 9px
+    }
+}
+
+@media(max-width:560px) {
+    #calc {
+        width: min(244px, calc(100% - 16px));
+        right: 8px;
+        bottom: 8px
+    }
+
+    #toast {
+        font-size: 13px
+    }
+}
+
+@media(pointer:coarse) {
+
+    button,
+    select {
+        min-height: 44px
+    }
+
+    select,
+    input {
+        font-size: 16px
+    }
+
+    .sw {
+        width: 36px;
+        height: 36px;
+        min-height: 36px
+    }
+
+    input[type=color] {
+        width: 44px;
+        height: 44px
+    }
+
+    input[type=range] {
+        width: 120px
+    }
+
+    .dots button {
+        min-height: 0
+    }
+}
